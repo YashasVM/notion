@@ -79,7 +79,7 @@ test('ordinary UI and JavaScript tools work when WebMCP is unavailable or regist
   const result=await api.ready;
   assert.equal(result.registered,0);
   assert.ok(w.document.querySelector('#search'));
-  assert.equal(api.execute('notion_list_pages').length,7);
+  assert.equal(api.execute('notion_list_pages').length,3);
   assert.equal(result.supported,!!settings.webmcp);
  }
 });

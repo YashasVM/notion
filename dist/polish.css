@@ -2,6 +2,7 @@
    cover the editor and database rules injected later by their scripts. */
 :root {
   color-scheme: light;
+  --on-accent: #fff;
   --muted: #72726c;
   --control-bg: #f4f4f2;
   --control-hover: #eaeae6;
@@ -10,7 +11,7 @@
   --focus-glow: #2383e226;
   --selection-bg: #b9dcff;
   --selection-text: #14334f;
-  --placeholder: #82827a;
+  --placeholder: #6f6f68;
   --danger: #b33b36;
   --danger-bg: #fff0ee;
   --accent-bg: #eaf3fc;
@@ -28,7 +29,7 @@ body.dark {
   --focus-glow: #73b7ff26;
   --selection-bg: #315d89;
   --selection-text: #ffffff;
-  --placeholder: #97978f;
+  --placeholder: #aaa9a3;
   --danger: #ff9f97;
   --danger-bg: #4b2927;
   --accent-bg: #233d53;

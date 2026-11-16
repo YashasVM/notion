@@ -37,6 +37,8 @@ npm test
 - Subtle interface transitions that respect reduced-motion preferences
 - Agent actions and optional WebMCP registration for supported browsers
 
+The homepage shows saved pages and actual task records. New workspaces start with Workspace, Project tracker, and Getting started, with no demo tasks or fake collaborators. Existing saved content is preserved.
+
 Pages and tasks save in browser storage. There is no cloud synchronization, live collaboration, or connected AI backend. Use **Settings → Export backup** to download a copy of your workspace.
 
 ## Work with an agent

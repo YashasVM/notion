@@ -21,8 +21,8 @@ test('task fields retain readable foreground and background through hover/focus 
   const resolve=value=>value.startsWith('var(')?token(value.slice(4,-1)):value;
   for(const selector of ['select[name="owner"]','select[name="priority"]','input[name="date"]','input[name="tag"]']){
    const el=$(selector);el.setAttribute('data-test-hover','');
-   let style=w.getComputedStyle(el);assert.ok(contrast(resolve(style.color),resolve(style.backgroundColor))>=4.5,`${selector} hover contrast in ${dark?'dark':'light'}`);
-   el.focus();style=w.getComputedStyle(el);assert.ok(contrast(resolve(style.color),resolve(style.backgroundColor))>=4.5,`${selector} focus contrast`);el.blur();el.removeAttribute('data-test-hover');
+   let style=w.getComputedStyle(el);assert.ok(contrast(resolve(style.color),resolve(style.backgroundColor==='rgba(0, 0, 0, 0)'?style.background:style.backgroundColor))>=4.5,`${selector} hover contrast in ${dark?'dark':'light'}`);
+   el.focus();style=w.getComputedStyle(el);assert.ok(contrast(resolve(style.color),resolve(style.backgroundColor==='rgba(0, 0, 0, 0)'?style.background:style.backgroundColor))>=4.5,`${selector} focus contrast`);el.blur();el.removeAttribute('data-test-hover');
   }
  }
 });
@@ -48,16 +48,16 @@ test('mobile sidebar dismisses via backdrop and appearance follows the system wi
  const {w,$,click,appearance,changeAppearance}=setup();t.after(()=>w.close());Object.defineProperty(w,'innerWidth',{value:390,writable:true});click('#mobile-menu');assert.equal($('#sidebar-backdrop').hidden,false);assert.equal($('#mobile-menu').getAttribute('aria-expanded'),'true');click('#sidebar-backdrop');assert.equal($('#sidebar-backdrop').hidden,true);
  click('#settings');$('#theme').value='system';click('#save-settings');const title=$('.page-title');appearance.matches=true;changeAppearance();assert.equal(w.document.body.classList.contains('dark'),true);assert.equal(w.document.documentElement.style.colorScheme,'dark');assert.equal($('.page-title'),title);
 });
-test('backups include seed tasks and imports preserve existing pages while remapping nested pages',async t=>{
- const {w,$,click,api}=setup();t.after(()=>w.close());let exported;
+test('backups include saved tasks and imports preserve existing pages while remapping nested pages',async t=>{
+ const {w,$,click,api}=setup();t.after(()=>w.close());let exported;api.execute('notion_create_task',{title:'Existing task'});
  w.Blob=class{constructor(parts){this.parts=parts}};w.URL.createObjectURL=blob=>{exported=JSON.parse(blob.parts[0]);return 'blob:test'};w.URL.revokeObjectURL=()=>{};w.HTMLAnchorElement.prototype.click=()=>{};
- click('#settings');click('#backup');assert.equal(exported.tasks.length,7);
+ click('#settings');click('#backup');assert.equal(exported.tasks.length,1);
  let pending;const backup={pages:[{id:'parent',title:'Imported parent',blocks:[]},{id:'child',parent:'parent',title:'Imported child',blocks:[]}],tasks:[{id:'import-task',title:'Imported task',status:'Not started',priority:'High',owner:'Alex',date:'',tag:'Import',description:''}]};
  const originalClick=w.HTMLInputElement.prototype.click;w.HTMLInputElement.prototype.click=function(){if(this.type==='file'){Object.defineProperty(this,'files',{value:[{text:async()=>JSON.stringify(backup)}]});pending=this.onchange()}else originalClick.call(this)};
  click('#restore');await pending;
- const pages=api.execute('notion_list_pages');const parent=pages.find(p=>p.title==='Imported parent'),child=pages.find(p=>p.title==='Imported child');assert.equal(child.parentId,parent.id);assert.equal(pages.length,9);assert.equal(api.execute('notion_list_tasks').length,8);
- api.execute('notion_open_page',{id:'projects'});assert.ok($('.db-table').textContent.includes('Imported task'));assert.ok($('.db-table').textContent.includes('Explore visual directions'));
+ const pages=api.execute('notion_list_pages');const parent=pages.find(p=>p.title==='Imported parent'),child=pages.find(p=>p.title==='Imported child');assert.equal(child.parentId,parent.id);assert.equal(pages.length,5);assert.equal(api.execute('notion_list_tasks').length,2);
+ api.execute('notion_open_page',{id:'projects'});assert.ok($('.db-table').textContent.includes('Imported task'));assert.ok($('.db-table').textContent.includes('Existing task'));
 });
 test('duplicating the home page retains its content and deleting it synchronizes the URL',t=>{
- const {w,$,click}=setup();t.after(()=>w.close());click('#more');click('[data-duplicate]');assert.equal(w.document.querySelectorAll('.project-card').length,3);click('#more');click('[data-delete]');assert.equal(w.location.hash.slice(1),w.document.documentElement.dataset.currentPage);
+ const {w,$,click}=setup();t.after(()=>w.close());click('#more');click('[data-duplicate]');assert.equal(w.document.querySelectorAll('.project-card').length,0);click('#more');click('[data-delete]');assert.equal(w.location.hash.slice(1),w.document.documentElement.dataset.currentPage);
 });
