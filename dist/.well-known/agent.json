@@ -1,0 +1,11 @@
+{
+  "name": "Notion-style workspace",
+  "version": "1.0.0",
+  "transport": "browser-local",
+  "javascript_api": "window.NotionAgent",
+  "webmcp": "document.modelContext.registerTool (feature-detected)",
+  "schemas": "/agent-tools.json",
+  "documentation": "/agent-api.md",
+  "source": "https://github.com/YashasVM/notion",
+  "storage": "Browser localStorage; no remote data endpoint"
+}

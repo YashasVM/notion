@@ -1,0 +1,11 @@
+import {execFileSync} from 'node:child_process';
+import {readFileSync,existsSync} from 'node:fs';
+import vm from 'node:vm';
+for(const file of ['app.js','editor.js','database.js','agent.js','motion.js'])execFileSync(process.execPath,['--check','dist/'+file],{stdio:'inherit'});
+for(const file of ['cover.jpg','style.css','motion.css','fonts.css','fonts/inter-latin.woff2','fonts/source-serif-4-latin.woff2','fonts/jetbrains-mono-latin.woff2'])if(!existsSync('dist/'+file))throw new Error('Missing asset: '+file);
+const context={window:{WorkspaceActions:{},addEventListener(){}},document:{},AbortController};
+vm.runInNewContext(readFileSync('dist/agent.js','utf8'),context);
+const tools=context.window.NotionAgent.tools;
+const declared=JSON.parse(readFileSync('dist/agent-tools.json','utf8'));
+if(JSON.stringify(tools)!==JSON.stringify(declared.tools))throw new Error('Agent schemas are out of date');
+console.log('JavaScript syntax, deploy assets, and agent discovery schemas checked.');

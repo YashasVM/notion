@@ -1,0 +1,142 @@
+/* Quiet, finite motion: feedback without getting in the way of writing. */
+:root {
+  --motion-fast: 130ms;
+  --motion-normal: 190ms;
+  --motion-ease: cubic-bezier(.2, .7, .25, 1);
+}
+body button,
+body .side-row,
+body .foot-row,
+body .crumb,
+body .home-link {
+  transition: background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    box-shadow var(--motion-normal) var(--motion-ease),
+    opacity var(--motion-fast) ease,
+    transform var(--motion-fast) var(--motion-ease);
+}
+body .sidebar,
+body .main {
+  transition-duration: 210ms;
+  transition-timing-function: var(--motion-ease);
+}
+body .page-tools,
+body .cover-actions,
+body .ed-controls,
+body .row-actions,
+body .home-link .arrow-right {
+  transition: opacity var(--motion-fast) ease,
+    transform var(--motion-fast) var(--motion-ease);
+}
+body .home-link .arrow-right { transform: translateX(-3px); }
+body .home-link:hover .arrow-right { transform: translateX(0); }
+body .project-art > div {
+  transition: translate 210ms var(--motion-ease);
+}
+body .project-card,
+body .template,
+body .db-card {
+  transition: transform var(--motion-normal) var(--motion-ease),
+    box-shadow var(--motion-normal) var(--motion-ease),
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease;
+}
+body .ed-content,
+body .ed-todo input {
+  transition: color 160ms ease, opacity 160ms ease;
+}
+body .ed-done .ed-content { opacity: .75; }
+body .form-input,
+body .db-fields input,
+body .db-fields select {
+  transition: border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease;
+}
+body .switch,
+body .switch::after {
+  transition: background-color 160ms ease, margin-left 160ms var(--motion-ease);
+}
+body .overlay,
+body .db-modal-overlay {
+  animation: workspace-scrim 140ms ease both;
+}
+body .overlay > .modal,
+body .db-modal-overlay > .db-modal {
+  animation: workspace-dialog-in 190ms var(--motion-ease) both;
+  transform-origin: center 35%;
+}
+body .popover,
+body .ed-menu,
+body .ed-toolbar,
+body .db-popover {
+  animation: workspace-menu-in 140ms var(--motion-ease) both;
+  transform-origin: top center;
+}
+body .db-drop-target {
+  transition: background-color var(--motion-fast) ease,
+    outline-color var(--motion-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  body .project-card:hover,
+  body .template:hover,
+  body .db-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px #00000010;
+  }
+  body .project-card:hover .project-art > div { translate: 0 -2px; }
+  body .primary:hover,
+  body .db-new:hover,
+  body .db-save-task:hover {
+    box-shadow: 0 2px 5px #2383e225;
+  }
+}
+body .project-card:active,
+body .template:active,
+body .db-card:active {
+  transform: translateY(0) scale(.992);
+  transition-duration: 85ms;
+}
+body .primary:active,
+body .db-new:active,
+body .db-save-task:active,
+body .emoji-grid button:active {
+  transform: scale(.97);
+  transition-duration: 85ms;
+}
+@keyframes workspace-menu-in {
+  from { opacity: 0; transform: translateY(-3px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes workspace-dialog-in {
+  from { opacity: 0; transform: translateY(7px) scale(.992); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes workspace-scrim {
+  from { background-color: transparent; backdrop-filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  body .project-card:hover,
+  body .template:hover,
+  body .db-card:hover,
+  body .project-card:active,
+  body .template:active,
+  body .db-card:active,
+  body .primary:active,
+  body .db-new:active,
+  body .db-save-task:active,
+  body .emoji-grid button:active { transform: none; }
+  body .project-card:hover .project-art > div { translate: none; }
+}
+@media print {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

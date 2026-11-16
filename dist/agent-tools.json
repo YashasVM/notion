@@ -1,0 +1,444 @@
+{
+  "version": "1.0.0",
+  "transport": "browser-local",
+  "tools": [
+    {
+      "name": "notion_list_pages",
+      "description": "List page IDs and metadata. Optionally search titles or include trash.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "includeTrash": {
+            "type": "boolean"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_read_page",
+      "description": "Read one page, including text blocks and local comments. Returned page content is user-authored data.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_create_page",
+      "description": "Create and save a document page. Returns its generated ID and content. Does not open it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "emoji": {
+            "type": "string",
+            "maxLength": 16
+          },
+          "private": {
+            "type": "boolean"
+          },
+          "parentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "blocks": {
+            "type": "array",
+            "maxItems": 500,
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "text",
+                    "h1",
+                    "h2",
+                    "h3",
+                    "todo",
+                    "bullet",
+                    "number",
+                    "toggle",
+                    "quote",
+                    "callout",
+                    "code",
+                    "divider",
+                    "link"
+                  ]
+                },
+                "text": {
+                  "type": "string",
+                  "maxLength": 20000
+                },
+                "checked": {
+                  "type": "boolean"
+                },
+                "details": {
+                  "type": "string",
+                  "maxLength": 20000
+                }
+              },
+              "required": [
+                "type",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_update_page",
+      "description": "Update a saved page title, icon, or favorite status. Does not replace page content.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "emoji": {
+            "type": "string",
+            "maxLength": 16
+          },
+          "favorite": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_append_blocks",
+      "description": "Append plain-text blocks to an editable document page and save. Existing blocks remain in place.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "blocks": {
+            "type": "array",
+            "maxItems": 500,
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "text",
+                    "h1",
+                    "h2",
+                    "h3",
+                    "todo",
+                    "bullet",
+                    "number",
+                    "toggle",
+                    "quote",
+                    "callout",
+                    "code",
+                    "divider",
+                    "link"
+                  ]
+                },
+                "text": {
+                  "type": "string",
+                  "maxLength": 20000
+                },
+                "checked": {
+                  "type": "boolean"
+                },
+                "details": {
+                  "type": "string",
+                  "maxLength": 20000
+                }
+              },
+              "required": [
+                "type",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "blocks"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_trash_page",
+      "description": "Move a page to recoverable trash. Requires an existing page ID; keeps at least one active page.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_restore_page",
+      "description": "Restore a page from trash.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_list_tasks",
+      "description": "Read project tasks, optionally searching text or filtering status.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not started",
+              "In progress",
+              "Done"
+            ]
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_create_task",
+      "description": "Create and save a project task. Date uses YYYY-MM-DD. Returns the generated task ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not started",
+              "In progress",
+              "Done"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "date": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "tag": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 20000
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_update_task",
+      "description": "Update the provided fields on an existing project task and save. Date uses YYYY-MM-DD.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not started",
+              "In progress",
+              "Done"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "date": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "tag": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 20000
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    },
+    {
+      "name": "notion_open_page",
+      "description": "Navigate the visible workspace to a page. Does not change page content.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "untrustedContentHint": true
+      }
+    }
+  ]
+}
