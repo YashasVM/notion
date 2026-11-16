@@ -63,7 +63,7 @@ See [the agent API](docs/AGENT_API.md) for schemas and examples, and [AGENTS.md]
 | `dist/editor.js` | Block editor and formatting |
 | `dist/database.js` | Project database views and task state |
 | `dist/agent.js` | Agent action discovery, validation, and WebMCP registration |
-| `dist/style.css` | Shared layout and typography |
+| `dist/style.css`, `dist/polish.css` | Shared layout, typography, and theme-safe interaction states |
 | `dist/motion.css`, `dist/motion.js` | Reduced-motion-aware interaction transitions |
 | `dist/fonts.css`, `dist/fonts/` | Bundled fonts and their licenses |
 | `docs/AGENT_API.md` | Browser agent integration |

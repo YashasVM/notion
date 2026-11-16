@@ -9,7 +9,7 @@ This is a buildless, browser-local workspace application. Keep changes focused o
 - `dist/editor.js` implements editable blocks and rich text controls.
 - `dist/database.js` owns task state and database views.
 - `dist/agent.js` exposes agent actions and optional WebMCP registration. Integration is documented in `docs/AGENT_API.md`; inspect the current implementation and its tool schemas before changing the contract.
-- `dist/style.css`, `dist/fonts.css`, and `dist/fonts/` provide the shared visual system.
+- `dist/style.css`, `dist/polish.css`, `dist/fonts.css`, and `dist/fonts/` provide the shared visual system. `polish.css` covers component hover, focus, selection, and native form control contrast in both themes.
 - `dist/motion.css` and `dist/motion.js` handle subtle interaction transitions; preserve reduced-motion support.
 
 The `dist` directory contains the actual source and deployable files. Do not treat it as a disposable build output.

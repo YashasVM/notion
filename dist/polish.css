@@ -1,0 +1,385 @@
+/* Theme-complete interaction states. Loaded after base styles; selectors also
+   cover the editor and database rules injected later by their scripts. */
+:root {
+  color-scheme: light;
+  --muted: #72726c;
+  --control-bg: #f4f4f2;
+  --control-hover: #eaeae6;
+  --control-border: #ddddd8;
+  --focus-ring: #2383e2;
+  --focus-glow: #2383e226;
+  --selection-bg: #b9dcff;
+  --selection-text: #14334f;
+  --placeholder: #82827a;
+  --danger: #b33b36;
+  --danger-bg: #fff0ee;
+  --accent-bg: #eaf3fc;
+  --accent-text: #1767ac;
+  --scrim: #00000066;
+}
+body { color-scheme: light; caret-color: var(--text); }
+body.dark {
+  color-scheme: dark;
+  --muted: #aaa9a3;
+  --control-bg: #252525;
+  --control-hover: #30302f;
+  --control-border: #41413e;
+  --focus-ring: #73b7ff;
+  --focus-glow: #73b7ff26;
+  --selection-bg: #315d89;
+  --selection-text: #ffffff;
+  --placeholder: #97978f;
+  --danger: #ff9f97;
+  --danger-bg: #4b2927;
+  --accent-bg: #233d53;
+  --accent-text: #9acfff;
+  --scrim: #00000099;
+  --shadow: 0 8px 30px #00000066;
+}
+::selection { background: var(--selection-bg); color: var(--selection-text); }
+body input::selection,
+body textarea::selection,
+body [contenteditable]::selection,
+body [contenteditable] *::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+  -webkit-text-fill-color: var(--selection-text);
+}
+body input, body select, body textarea, body [contenteditable] {
+  caret-color: var(--text);
+  accent-color: var(--blue);
+}
+body input::placeholder, body textarea::placeholder,
+body .db-task-title::placeholder,
+body .ed-content:empty::before,
+body .ed-toggle-details:empty::before {
+  color: var(--placeholder);
+  opacity: 1;
+}
+body input, body textarea { -webkit-text-fill-color: currentColor; }
+body select { color-scheme: inherit; }
+body select option, body select optgroup {
+  background-color: var(--bg);
+  color: var(--text);
+}
+body .form-input,
+body .setting-row select,
+body .db-fields input,
+body .db-fields select {
+  color: var(--text);
+  background-color: var(--control-bg);
+  border: 1px solid var(--control-border);
+  min-height: 32px;
+}
+/* Explicit hover/focus pairs prevent light field surfaces leaking into dark UI. */
+body .form-input:hover,
+body .setting-row select:hover,
+body .db-fields input:hover,
+body .db-fields select:hover {
+  background-color: var(--control-hover);
+  border-color: var(--control-border);
+  color: var(--text);
+}
+body .form-input:focus,
+body .setting-row select:focus,
+body .db-fields input:focus,
+body .db-fields select:focus,
+body .db-task-form textarea:focus {
+  color: var(--text);
+  background-color: var(--control-bg);
+  border-color: var(--focus-ring);
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px var(--focus-glow);
+}
+body input:-webkit-autofill,
+body input:-webkit-autofill:hover,
+body input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--control-bg) inset;
+}
+body input:disabled,
+body select:disabled,
+body textarea:disabled,
+body button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+body input:disabled, body select:disabled, body textarea:disabled {
+  background: var(--control-bg);
+  color: var(--muted);
+}
+body button:focus-visible,
+body [tabindex]:focus-visible,
+body [contenteditable]:focus-visible,
+body .db-root button:focus-visible,
+body .db-modal button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+body .page-title:focus-visible,
+body .ed-content:focus-visible,
+body .ed-toggle-details:focus-visible {
+  outline: none;
+  box-shadow: -2px 0 0 var(--focus-ring);
+}
+body .db-task-title:focus {
+  outline: none;
+  box-shadow: 0 2px 0 var(--focus-ring);
+}
+body .search-input:focus { outline: none; }
+body .modal-header:focus-within,
+body .db-searchline:focus-within { box-shadow: inset 0 -2px 0 var(--focus-ring); }
+body .db-modal-overlay, body .overlay { background-color: var(--scrim); }
+body .db-modal, body .db-popover,
+body .db-open-label, body .db-card,
+body .db-today, body .db-cal-task,
+body .db-cancel-task {
+  background-color: var(--bg);
+  border-color: var(--line);
+  color: var(--text);
+}
+body .db-root, body .db-modal-overlay,
+body .db-task-form textarea,
+body .db-popover, body .ed-menu, body .ed-toolbar { color: var(--text); }
+body .db-task-form textarea {
+  padding: 9px 10px;
+  border: 1px solid var(--control-border);
+  border-radius: 4px;
+  background: var(--control-bg);
+  min-height: 112px;
+}
+body .db-task-form hr,
+body .db-viewbar,
+body .db-table th, body .db-table td,
+body .db-listrow, body .db-calendar-grid,
+body .db-day, body .db-searchline { border-color: var(--line); }
+body .db-card:hover,
+body .db-listrow:hover,
+body .db-table tbody tr:hover,
+body .db-tab:hover,
+body .db-newrow:hover,
+body .db-iconbutton:hover,
+body .db-popover button:hover,
+body .db-popover button:focus-visible,
+body .db-today:hover,
+body .db-cancel-task:hover { background-color: var(--hover); }
+body .db-day-outside { background-color: var(--side); color: var(--muted); }
+body .db-tag { background-color: var(--control-bg); color: var(--muted); }
+body .db-filter-chip,
+body .db-tool-active,
+body .db-drop-target {
+  background-color: var(--accent-bg);
+  border-color: var(--accent-text);
+}
+/* These declarations override existing component !important text rules. */
+body .db-root .db-tab,
+body .db-root .db-iconbutton,
+body .db-root .db-newrow,
+body .db-root .db-reset,
+body .db-calendar-top .db-today {
+  color: var(--muted) !important;
+}
+body .db-root .db-tab.db-active,
+body .db-root .db-newrow:hover { color: var(--text) !important; }
+body .db-root .db-tool-active,
+body .db-root .db-filter-chip { color: var(--accent-text) !important; }
+body .db-tab.db-active::after { background-color: var(--text); }
+body .db-root .db-new,
+body .db-modal .db-save-task,
+body .primary,
+body .comment-form button {
+  background-color: var(--blue);
+  border-color: #1e72c5;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff;
+}
+body .db-root .db-new:hover,
+body .db-modal .db-save-task:hover,
+body .primary:hover,
+body .comment-form button:hover { background-color: #1d71c7; }
+body .db-delete-task, body .menu-item.danger { color: var(--danger); }
+body .db-delete-task:hover, body .menu-item.danger:hover { background-color: var(--danger-bg); }
+body .db-date, body .db-list-date,
+body .db-footer, body .db-count,
+body .db-empty, body .db-card-bottom,
+body .db-weekdays, body .db-table th,
+body .db-fields > label > span,
+body .db-modal-top, body .ed-menu-title,
+body .ed-menu-copy small, body .ed-control,
+body .ed-code::before,
+body .side-heading, body .foot-row,
+body .subtitle, body .page-meta,
+body .team-label, body .link-group,
+body .top-actions .edited,
+body .side-row .shortcut { color: var(--muted); }
+body .side-row { color: var(--text); }
+body .plan { border-color: var(--line); }
+body .home-link .link-name { text-decoration-color: var(--control-border); }
+body .home-bottom { color: var(--muted); }
+body .home-bottom button { color: var(--muted); }
+body .ed-block code { background-color: var(--control-bg); color: #b42335; }
+body.dark .ed-block code { color: #ffb4b4; }
+body .ed-toolbar button + button { border-color: var(--line); }
+body .ed-callout, body .ed-code { background-color: var(--callout); }
+body .ed-done .ed-content { color: var(--muted); }
+body .ed-toggle-button:hover { background-color: var(--hover); }
+body .db-status-0 { background: #e9e9e7; color: #5f5e59; }
+body .db-status-1 { background: #d3e5ef; color: #275d75; }
+body .db-status-2 { background: #dbeddb; color: #386342; }
+body .db-priority-0 { background: #ffe2dd; color: #923e37; }
+body .db-priority-1 { background: #fdecc8; color: #78521f; }
+body .db-priority-2 { background: #e8deee; color: #70517d; }
+body.dark .db-status-0, body.dark .tag.gray { background: #343431; color: #d5d4ce; }
+body.dark .db-status-1 { background: #253f50; color: #a8d7f0; }
+body.dark .db-status-2, body.dark .tag { background: #293e30; color: #b2dbbc; }
+body.dark .db-priority-0 { background: #512f2b; color: #ffbcb2; }
+body.dark .db-priority-1 { background: #4a3d24; color: #f2d395; }
+body.dark .db-priority-2, body.dark .tag.purple { background: #403249; color: #d9bce8; }
+body.dark .db-avatar { background: #4a4034; color: #ebd2b3; }
+body.dark .db-avatar-1 { background: #31463c; color: #bdddca; }
+body.dark .db-avatar-2 { background: #44384e; color: #dec8eb; }
+body.dark .db-avatar-3 { background: #4c3d32; color: #e8c9b0; }
+body .db-card-title, body .db-list-title { min-width: 0; overflow-wrap: anywhere; }
+body .db-card-title span { min-width: 0; }
+body .db-card-tags { flex-wrap: wrap; }
+body .db-task-title { letter-spacing: -.65px; line-height: 1.25; }
+body .db-fields > label { min-height: 37px; }
+body .db-modal-top > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body .modal, body .db-modal { max-height: calc(100dvh - 48px); overflow: auto; overscroll-behavior: contain; }
+body .popover, body .ed-menu, body .db-popover {
+  max-width: calc(100vw - 20px);
+  max-height: min(80dvh, 480px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body .modal-header { position: sticky; top: 0; background: var(--bg); z-index: 1; }
+body .modal-header h2 { min-width: 0; overflow-wrap: anywhere; }
+body .modal-body { min-width: 0; }
+body .form-input { min-width: 0; }
+body .setting-row { gap: 16px; }
+body .setting-row > div { min-width: 0; }
+body .search-results .result > span:nth-child(2) { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+body .breadcrumbs { min-width: 0; }
+body .breadcrumbs > .crumb:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body .top-actions { flex-shrink: 0; }
+body .top-actions > button { flex-shrink: 0; }
+body .db-viewbar { flex-wrap: wrap; gap: 4px 12px; }
+body .db-tabs { overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+body .db-tools { margin-left: auto; }
+body .db-searchline .db-search-input { color: var(--text); }
+body .db-filterline { flex-wrap: wrap; }
+body .db-list-title { flex: 1; }
+body .db-list-title > svg { flex-shrink: 0; }
+body .db-list-properties { flex-shrink: 0; }
+body .project-card:focus-visible,
+body .home-link:focus-visible,
+body .template:focus-visible { outline-offset: 3px; }
+body .cover:focus-within .cover-actions { display: flex; }
+body .document:focus-within .page-tools,
+body .ed-block:focus-within > .ed-controls { opacity: 1; }
+body .side-row:focus-visible .row-actions { display: flex; }
+body .home-link:focus-visible .arrow-right { opacity: 1; }
+body .db-day:focus-within .db-day-add { opacity: 1; }
+body .db-table tbody tr:focus-visible { background: var(--hover); outline-offset: -2px; }
+body { scrollbar-color: var(--control-border) var(--bg); }
+@media (hover: none), (pointer: coarse) {
+  body .page-tools, body .ed-controls, body .db-day-add { opacity: 1; }
+  body .cover-actions { display: flex; right: 12px; bottom: 10px; }
+  body .side-row .row-actions { display: flex; }
+  body .collapse-button { opacity: 1; }
+  body .icon, body .db-iconbutton { min-width: 32px; min-height: 32px; }
+  body .ed-controls { left: -28px; }
+  body .ed-control:first-child { display: none; }
+}
+@media (max-width: 760px) {
+  body .document { padding-inline: 28px; }
+  body .db-task-form { padding: 12px 22px 24px; }
+  body .db-modal-overlay, body .overlay { padding: 20px 12px; }
+  body .modal, body .db-modal { max-height: calc(100dvh - 40px); }
+  body .modal-body { padding: 18px; }
+  body .db-content { max-width: 100%; }
+  body .db-viewbar { align-items: flex-start; }
+  body .db-tools { padding-block: 3px 6px; }
+  body .db-list-properties .db-list-date { display: none; }
+  body .db-task-title { font-size: 27px; }
+  body .db-modal-footer { gap: 8px; }
+  body .db-modal-footer > div { gap: 5px; }
+  body .db-modal-footer button { white-space: nowrap; }
+}
+@media (max-width: 480px) {
+  body .topbar { gap: 3px; padding-inline: 7px; }
+  body .top-actions { gap: 0; }
+  body .top-actions button { padding-inline: 4px; }
+  body .breadcrumbs { font-size: 12px; gap: 0; }
+  body .crumb { padding-inline: 3px; gap: 3px; }
+  body .project-cards { grid-template-columns: 1fr; gap: 12px; }
+  body .project-art { height: 92px; }
+  body .home-grid { gap: 24px; }
+  body .db-fields > label { grid-template-columns: 88px minmax(0, 1fr); gap: 8px; }
+  body .db-fields > label > span { font-size: 12px; }
+  body .db-list-properties .db-badge { display: none; }
+  body .setting-row { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+  body .link-group { gap: 14px; flex-wrap: wrap; }
+  body .modal-header { padding: 15px 17px; }
+  body .modal-header h2 { font-size: 17px; }
+  body .db-task-form { padding-inline: 17px; }
+  body .comment-form { flex-wrap: wrap; }
+  body .comment-form input { min-width: 150px; }
+  body .page-title { font-size: 32px; }
+  body .mono .page-title { font-size: 29px; }
+}
+@media (forced-colors: active) {
+  body input, body select, body textarea,
+  body .db-badge, body .db-card { border: 1px solid CanvasText; }
+}
+body.dialog-open { overflow: hidden; }
+body .sidebar-backdrop { display: none; }
+body .sidebar-backdrop[hidden] { display: none; }
+@media (max-width: 760px) {
+  body .sidebar-backdrop:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    background: #00000066;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+body .workspace-header {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  min-width: 0;
+}
+body .workspace-header .workspace { min-width: 0; flex: 1; width: auto; padding-right: 3px; }
+body .workspace-header .workspace-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+body .workspace-header > .collapse-button { flex-shrink: 0; margin-right: 6px; }
+body .collapse-button:focus-visible { opacity: 1; }
+body .sidebar-page-row { position: relative; }
+body .sidebar-page-row > .side-row { width: 100%; padding-right: 30px; }
+body .page-row-menu {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  opacity: 0;
+}
+body .sidebar-page-row:hover > .page-row-menu,
+body .sidebar-page-row:focus-within > .page-row-menu { opacity: 1; }
+body .page-row-menu:hover { background: var(--control-hover); color: var(--text); }
+@media (hover: none), (pointer: coarse) {
+  body .page-row-menu { opacity: 1; }
+}
+@media (max-width: 760px) {
+  body.sidebar-open { overflow: hidden; }
+}
